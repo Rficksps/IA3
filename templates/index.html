@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recent Games</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f0f0f0;
+        }
+        .game {
+            border: 1px solid #ddd;
+            margin-bottom: 10px;
+            padding: 10px;
+            background-color: #fff;
+        }
+        .game img {
+            max-width: 100px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Games Added in the Last 30 Days</h1>
+    {% for game in games %}
+        <div class="game">
+            <h2>{{ game.name }}</h2>
+            {% if game.cover %}
+                <img src="{{ game.cover.url }}" alt="{{ game.name }}">
+            {% endif %}
+            <p>Release Date: {{ game.first_release_date | datetimeformat }}</p>
+            <p>Age Rating: {{ game.age_ratings}}</p>
+
+        </div>
+    {% endfor %}
+</body>
+</html>
