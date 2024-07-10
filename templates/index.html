@@ -1,14 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Recent Games</title>
+    <title>Home</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 0;
-            padding: 20px;
+            padding-left: 20px;
             background-color: #f0f0f0;
         }
         .game {
@@ -23,17 +25,32 @@
     </style>
 </head>
 <body>
-    <h1>Games Added in the Last 30 Days</h1>
-    {% for game in games %}
-        <div class="game">
-            <h2>{{ game.name }}</h2>
-            {% if game.cover %}
-                <img src="{{ game.cover.url }}" alt="{{ game.name }}">
-            {% endif %}
-            <p>Release Date: {{ game.first_release_date | datetimeformat }}</p>
-            <p>Age Rating: {{ game.age_ratings}}</p>
+    {% if session.get('role') == 'coordinator' %}
+        {% include 'navbar_coordinator.html' %}
+    {% elif session.get('role') == 'user' %}
+        {% include 'navbar_user.html' %}
+    {% elif session.get('role') == 'sponsor' %}
+        {% include 'navbar_sponsor.html' %}
+    {% endif %}
+    <h1>Welcome</h1>
+    {% if session['user'] %}
+        <p>You are logged in as {{ session['user'] }}!</p>
+        <a href="{{ url_for('logout') }}" class="w3-button w3-red">Logout</a>
+    {% else %}
+        <a href="{{ url_for('login') }}" class="w3-button w3-blue">Login</a>
+        <a href="{{ url_for('register') }}" class="w3-button w3-green">Register</a>
+    {% endif %}
+<!--    <h1>Games Added in the Last 30 Days</h1>-->
+<!--    {% for game in games %}-->
+<!--        <div class="game">-->
+<!--            <h2>{{ game.name }}</h2>-->
+<!--            {% if game.cover %}-->
+<!--                <img src="{{ game.cover.url }}" alt="{{ game.name }}">-->
+<!--            {% endif %}-->
+<!--            <p>Release Date: {{ game.first_release_date | datetimeformat }}</p>-->
+<!--            <p>Age Rating: {{ game.age_ratings}}</p>-->
 
-        </div>
-    {% endfor %}
+<!--        </div>-->
+<!--    {% endfor %}-->
 </body>
 </html>
